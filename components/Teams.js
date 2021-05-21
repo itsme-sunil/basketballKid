@@ -1,16 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-vector-icons';
-import { ListItem } from 'react-native-elements';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import nba from 'nba';
 
-export default function Teams({ setTeam }) {
+export default function Teams({ selectTeam }) {
   const teams = nba.teams;
-  // const [teamId, setTeamId] = useState(null);
-
-  // useEffect(() => {
-  // }, [teamId]);
 
   return (
     <View style={styles.container}>
@@ -18,32 +12,18 @@ export default function Teams({ setTeam }) {
         data={teams}
         keyExtractor={team => team.teamId}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={setTeam}>
-            <Text
-              style={styles.text}
-            >
+          <TouchableOpacity onPress={selectTeam}>
+            <Text style={styles.text}>
               {item.teamName}
             </Text>
           </TouchableOpacity>
         )}
       />
-      {/* <ScrollView>
-        {teams.map((team, idx) => {
-          <ListItem key={idx} bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>{team.teamName}</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        })}
-      </ScrollView> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
   text: {
     fontSize: 18,
     padding: 10,

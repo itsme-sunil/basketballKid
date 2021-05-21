@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
-import { Icon } from 'react-native-vector-icons';
-import { ListItem } from 'react-native-elements';
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import nba from 'nba';
 
-export default function Players({ team }) {
-  // const players = nba
-  console.log('from players', team);
-
-  const [players, setPlayers] = useState([]);
-
-  setPlayers(nba.players.filter(player => player.teamId === team.teamId));
-
-
-  // useEffect(() => {
-  //   setPlayers(nba.players.filter(player => (player.teamId === team.teamId)));
-  // }, [players]);
+export default async function Players({ team, selectPlayer }) {
+  const teamId = await nba.teamIdFromName(team);
+  const playerList = nba.players.filter(player => player.teamId === teamId);
+  console.log(playerList);
 
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
-        data={players}
-        keyExtractor={player => player.playerId}
+        data={playerList}
         renderItem={({ item }) => (
-          <Text style={styles.text}>{item.fullName}</Text>
+          <TouchableOpacity onPress={selectPlayer}>
+            <Text style={styles.text}>
+              {item.fullName}
+            </Text>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -31,9 +25,6 @@ export default function Players({ team }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   text: {
     padding: 10,
     borderBottomWidth: 1,
